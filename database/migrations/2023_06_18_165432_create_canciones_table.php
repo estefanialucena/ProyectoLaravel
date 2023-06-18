@@ -11,20 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
-
-        Schema::create('categorias', function (Blueprint $table) {
-            //Borrado en cascada
-            $table->engine="InnoDB";
-            
-            $table->bigIncrements('id');//Clave forane en canciones
-            $table->string('nombre');
-            $table->string('autor');
-            $table->string('portada'); //img
-            $table->string('album');
+        Schema::create('canciones', function (Blueprint $table) {
+            $table->id();
+            $table->string('titulo');
+            $table->foreignId('categoria_id')->constrained('categorias')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -32,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('canciones');
     }
 };

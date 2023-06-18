@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cancione;
+use App\Models\Cancion;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 
@@ -19,9 +19,9 @@ class CancioneController extends Controller
      */
     public function index()
     {
-        $canciones = Cancione::paginate();
+        $canciones = Cancion::paginate();
 
-        return view('cancione.index', compact('canciones'))
+        return view('cancion.index', compact('canciones'))
             ->with('i', (request()->input('page', 1) - 1) * $canciones->perPage());
     }
 
@@ -32,9 +32,9 @@ class CancioneController extends Controller
      */
     public function create()
     {
-        $cancione = new Cancione();
+        $cancione = new Cancion();
         $categorias = Categoria::pluck('nombre', 'id'); //Consulta en la tabla Categoria
-        return view('cancione.create', compact('cancione', 'categorias'));
+        return view('cancion.create', compact('cancione', 'categorias'));
     }
 
     /**
@@ -45,9 +45,9 @@ class CancioneController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Cancione::$rules);
+        // request()->validate(Cancion::$rules);
 
-        $cancione = Cancione::create($request->all());
+        $cancione = Cancion::create($request->all());
 
         return redirect()->route('canciones.index')
             ->with('success', 'Cancione created successfully.');
@@ -61,9 +61,9 @@ class CancioneController extends Controller
      */
     public function show($id)
     {
-        $cancione = Cancione::find($id);
+        $cancione = Cancion::find($id);
 
-        return view('cancione.show', compact('cancione'));
+        return view('cancion.show', compact('cancione'));
     }
 
     /**
@@ -74,9 +74,9 @@ class CancioneController extends Controller
      */
     public function edit($id)
     {
-        $cancione = Cancione::find($id);
+        $cancione = Cancion::find($id);
         $categorias = Categoria::pluck('nombre', 'id'); //Consulta en la tabla Categoria
-        return view('cancione.edit', compact('cancione', 'categorias'));
+        return view('cancion.edit', compact('cancione', 'categorias'));
     }
 
     /**
@@ -86,9 +86,9 @@ class CancioneController extends Controller
      * @param  Cancione $cancione
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cancione $cancione)
+    public function update(Request $request, Cancion $cancione)
     {
-        request()->validate(Cancione::$rules);
+        // request()->validate(Cancion::$rules);
 
         $cancione->update($request->all());
 
@@ -103,7 +103,7 @@ class CancioneController extends Controller
      */
     public function destroy($id)
     {
-        $cancione = Cancione::find($id)->delete();
+        $cancione = Cancion::find($id)->delete();
 
         return redirect()->route('canciones.index')
             ->with('success', 'Cancione deleted successfully');

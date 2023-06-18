@@ -43,7 +43,7 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Categoria::$rules);
+        // request()->validate(Categoria::$rules);
 
         $categoria = Categoria::create($request->all());
 
@@ -86,7 +86,7 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        request()->validate(Categoria::$rules);
+        // request()->validate(Categoria::$rules);
 
         $categoria->update($request->all());
 
