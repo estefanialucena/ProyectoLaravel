@@ -18,10 +18,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::paginate();
+        $categorias = Categoria::paginate(5);
 
-        return view('categoria.index', compact('categorias'))
-            ->with('i', (request()->input('page', 1) - 1) * $categorias->perPage());
+        return view('categoria.index', compact('categorias'));
     }
 
     /**
@@ -29,27 +28,6 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $categoria = new Categoria();
-        return view('categoria.create', compact('categoria'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // request()->validate(Categoria::$rules);
-
-        $categoria = Categoria::create($request->all());
-
-        return redirect()->route('categorias.index')
-            ->with('success', 'Categoria created successfully.');
-    }
 
     /**
      * Display the specified resource.

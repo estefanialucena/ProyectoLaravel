@@ -16,11 +16,11 @@
                         <span class="card-title">{{ __('Update') }} Cancione</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('canciones.update', $cancione->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
+                        <form method="POST" action="{{ route('cancion.update', $cancion->id) }}"  role="form" enctype="multipart/form-data">
                             @csrf
+                            @method('put')
 
-                            @include('cancione.form')
+                            @include('cancion.formUpdate')
 
                         </form>
                     </div>

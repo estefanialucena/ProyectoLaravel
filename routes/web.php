@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CancioneController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,11 +19,26 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+//Middelware para evitar intrusiones sin usuario
+Route::controller(CancioneController::class)->group(function(){
+    Route::get('/canciones', 'index')->middleware('auth')->name('canciones.index');
+    Route::get('/canciones/create', 'create')->middleware('auth')->name('canciones.create');
+    Route::post('/canciones/create', 'store')->middleware('auth')->name('cancion.store');
+    Route::get('/{categoria}/canciones', 'categoryFilter')->middleware('auth')->name('show.canciones.categoria');
+    route::get('/canciones/{cancion}/edit', 'edit')->middleware('auth')->name('canciones.edit');
+    Route::put('/canciones/{cancion}/update', 'update')->middleware('auth')->name('cancion.update');
+    Route::delete('/canciones/delete/{cancionId}', 'destroy')->middleware('auth')->name('canciones.destroy');
+});
+
+Route::controller(CategoriaController::class)->group(function(){
+    Route::get('/categorias', 'index')->middleware('auth')->name('categorias.index');
+});
 
 Auth::routes();
 
-Route::resource('canciones', App\Http\Controllers\CancioneController::class);
-Route::resource('categorias', App\Http\Controllers\CategoriaController::class);
+// Route::resource('canciones', App\Http\Controllers\CancioneController::class);
+// Route::resource('categorias', App\Http\Controllers\CategoriaController::class);
+// Route::controller();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

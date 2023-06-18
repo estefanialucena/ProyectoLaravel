@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Cancione') }}
+                                {{ __('Canciones') }}
                             </span>
 
                              <div class="float-right">
@@ -28,6 +28,11 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -36,29 +41,31 @@
                                     <tr>
                                         <th>No</th>
                                         
-										<th>Categoria Id</th>
-										<th>Nombre</th>
-
+										<th>Título</th>
+										<th>Autor</th>
+                                        <th>Categoría</th>
+                                        <th>Fecha de creación</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($canciones as $cancione)
+                                    @foreach ($canciones as $cancion)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $cancione->categoria_Id }}</td>
-											<td>{{ $cancione->nombre }}</td>
-
+                                            <td>{{$cancion->id}}</td>
+                                            <td>{{$cancion->titulo}}</td>
+                                            <td>{{$cancion->user->name}}</td>
+                                            <td>{{$cancion->categoria->nombre}}</td>
+                                            <td>{{$cancion->created_at->format('d/m/Y')}}</td>
+                                            @if ($cancion->user->id == Auth::id())
                                             <td>
-                                                <form action="{{ route('canciones.destroy',$cancione->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('canciones.show',$cancione->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('canciones.edit',$cancione->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                <form action="{{ route('canciones.destroy',$cancion->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-success" href="{{ route('canciones.edit',$cancion->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

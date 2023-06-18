@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cancion;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CancioneController
@@ -25,6 +27,25 @@ class CancioneController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $canciones->perPage());
     }
 
+    public function categoryFilter($categoriaId){
+        $categoria = Categoria::find($categoriaId);
+        // dd($categoria);
+        $canciones = $categoria->canciones;
+        $collection = collect($canciones);
+
+        //Paginar una colección de datos
+        $perPage = 5;
+        $page = request()->get('page', 1);
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            $collection->forPage($page, $perPage),
+            $collection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+        return view('cancion.index', ["canciones"=>$paginator]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -33,8 +54,24 @@ class CancioneController extends Controller
     public function create()
     {
         $cancione = new Cancion();
-        $categorias = Categoria::pluck('nombre', 'id'); //Consulta en la tabla Categoria
+        $categorias = Categoria::all(); //Consulta en la tabla Categoria
         return view('cancion.create', compact('cancione', 'categorias'));
+    }
+
+    public function store(Request $request){
+        DB::beginTransaction();
+        try {
+            $cancion=new Cancion();
+            $cancion->categoria_id = $request->categoria;
+            $cancion->titulo = $request->titulo;
+            $cancion->user_id = Auth::id();
+            $cancion->save();
+            DB::commit();
+            return redirect()->route('canciones.index');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->route('canciones.index');
+        }
     }
 
     /**
@@ -43,15 +80,15 @@ class CancioneController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // request()->validate(Cancion::$rules);
+    // public function store(Request $request)
+    // {
+    //     // request()->validate(Cancion::$rules);
 
-        $cancione = Cancion::create($request->all());
+    //     $cancione = Cancion::create($request->all());
 
-        return redirect()->route('canciones.index')
-            ->with('success', 'Cancione created successfully.');
-    }
+    //     return redirect()->route('canciones.index')
+    //         ->with('success', 'Cancione created successfully.');
+    // }
 
     /**
      * Display the specified resource.
@@ -74,9 +111,9 @@ class CancioneController extends Controller
      */
     public function edit($id)
     {
-        $cancione = Cancion::find($id);
-        $categorias = Categoria::pluck('nombre', 'id'); //Consulta en la tabla Categoria
-        return view('cancion.edit', compact('cancione', 'categorias'));
+        $cancion = Cancion::find($id);
+        $categorias = Categoria::all(); //Consulta en la tabla Categoria
+        return view('cancion.edit', compact('cancion', 'categorias'));
     }
 
     /**
@@ -86,14 +123,24 @@ class CancioneController extends Controller
      * @param  Cancione $cancione
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cancion $cancione)
+    public function update(Request $request, Cancion $cancion)
     {
-        // request()->validate(Cancion::$rules);
-
-        $cancione->update($request->all());
-
-        return redirect()->route('canciones.index')
-            ->with('success', 'Cancione updated successfully');
+        //Try catch para evitar errores con esto:
+        DB::beginTransaction();
+        try {
+            $cancion->titulo = $request->titulo;
+            $cancion->categoria_id = $request->categoria;
+            $cancion->user_id = Auth::id();
+            $cancion->save();
+            DB::commit();
+            return redirect()->route('canciones.index')
+            ->with('success', 'Canción actualizada correctamente');
+        } catch (\Throwable $e) {
+            //Se deshacen los cambios, para evitar errores en la BD
+            DB::rollBack();
+            return redirect()->route('canciones.index')
+            ->with('error', 'Ha ocurrido un error');
+        }
     }
 
     /**
