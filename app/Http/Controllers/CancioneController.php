@@ -29,7 +29,6 @@ class CancioneController extends Controller
 
     public function categoryFilter($categoriaId){
         $categoria = Categoria::find($categoriaId);
-        // dd($categoria);
         $canciones = $categoria->canciones;
         $collection = collect($canciones);
 

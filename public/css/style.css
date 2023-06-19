@@ -270,21 +270,14 @@ margin: 0 auto;
 .all-thumbnail-store {
 	padding: 15px;
 }
-/* =============================== contact styles ===============================*/
-.container-contact{
-	background-image: url(../assets/img/font-page-5.jpg);
-}
-.input-form-contact{
-	background-color: rgba(236,240,241,.3);
-	color: #000;
-	font-style: italic;
-}
-.contac-info{
-	background-color: rgba(0,0,0,.1);
-	border-radius: 7px;
-	padding: 30px 25px;
+/* =============================== login styles ===============================*/
+form> label{
 	width: 100%;
 }
+/* .rowLogin>a {
+width: 40px;
+height: 40px;
+} */
 
 /* ======================= MediaQueries bootstrap ==============================*/
 /* col-xs */

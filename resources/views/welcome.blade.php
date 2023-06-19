@@ -33,7 +33,7 @@
             </div>
             <ul class="list-unstyled text-center">
                 @auth
-                        <li><a href="{{ url('/home') }}" class="all-titles-pages">Home</a></li>
+                        <li><a href="{{ url('/home') }}" class="all-titles-pages">Perfil</a></li>
                     @else
                         <li><a href="{{ route('login') }}" class="all-titles-pages">Log in</a></li>
 
