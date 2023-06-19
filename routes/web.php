@@ -36,9 +36,6 @@ Route::controller(CategoriaController::class)->group(function(){
 
 Auth::routes();
 
-// Route::resource('canciones', App\Http\Controllers\CancioneController::class);
-// Route::resource('categorias', App\Http\Controllers\CategoriaController::class);
-// Route::controller();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
