@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('template_title')
     {{ $cancione->name ?? "{{ __('Show') Cancione" }}
@@ -79,4 +79,4 @@
             </div>
         </div>
     </section>
-@endsection
+@endsection --}}

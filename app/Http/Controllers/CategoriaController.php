@@ -18,7 +18,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::paginate(5);
+        $categorias = Categoria::paginate(10);
 
         return view('categoria.index', compact('categorias'));
     }
@@ -35,12 +35,13 @@ class CategoriaController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $categoria = Categoria::find($id);
+    //Usamos categoryFilter
+    // public function show($id)
+    // {
+    //     $categoria = Categoria::find($id);
 
-        return view('categoria.show', compact('categoria'));
-    }
+    //     return view('categoria.show', compact('categoria'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

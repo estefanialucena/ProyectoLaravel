@@ -95,12 +95,14 @@ class CancioneController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $cancione = Cancion::find($id);
 
-        return view('cancion.show', compact('cancione'));
-    }
+     //No usamos show()
+    // public function show($id)
+    // {
+    //     $cancione = Cancion::find($id);
+
+    //     return view('cancion.show', compact('cancione'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

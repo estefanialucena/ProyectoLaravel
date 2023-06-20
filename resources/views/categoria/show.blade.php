@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('template_title')
     {{ $categoria->name ?? "{{ __('Show') Categoria" }}
@@ -87,4 +87,4 @@
             </div>
         </div>
     </section>
-@endsection
+@endsection --}}
