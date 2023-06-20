@@ -84,7 +84,7 @@
                                     <tr>
                                         <td>{{$categoria->id}}</td>
                                         <td>{{$categoria->nombre}}</td>
-                                        <td><a href="{{route('show.canciones.categoria', $categoria->id)}}" role="button">Ver canciones</a></td>
+                                        <td><button><a href="{{route('show.canciones.categoria', $categoria->id)}}" style="text-decoration:none; color:black;">Ver canciones</a></button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
